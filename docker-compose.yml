@@ -1,0 +1,25 @@
+version: '3'
+services:
+
+  db:
+    image: mssql:latest
+    ports: 
+     - 1433:1433
+    environment:
+    - 'ACCEPT_EULA=Y'
+    - 'SA_PASSWORD=ssl-2000'
+    networks:
+      - back
+  app:
+    image: testweb:latest
+    ports: 
+    - "8080:80"
+    depends_on:
+    - db
+    links:
+    - "db"
+    networks:
+    - back
+networks:
+ back:
+   driver: bridge
